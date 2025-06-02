@@ -1,0 +1,250 @@
+/* Universal Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: #f9f9f9; /* Soft background color */
+    color: #333;
+}
+
+/* Container for the content */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+/* Header Section */
+header {
+    background-color: #007BFF; /* Bright blue background */
+    color: white;
+    text-align: center;
+    padding: 60px 0;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 3.5em;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+header p {
+    font-size: 1.1em;
+    font-weight: 400;
+}
+
+/* About Me Section */
+.about-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+    margin-top: 40px;
+    transition: all 0.3s ease;
+}
+
+.about-photo img {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.about-photo img:hover {
+    transform: scale(1.1);
+}
+
+.about-text {
+    max-width: 750px;
+    font-size: 1.2em;
+    color: #555;
+    line-height: 1.8;
+}
+
+/* Education & Project Section */
+.education-item, .project {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.education-item:hover, .project:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.education-item h3, .project h3 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.education-item p, .project p {
+    font-size: 1.1em;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style-type: none;
+    margin-top: 10px;
+}
+
+ul li {
+    margin-bottom: 12px;
+    font-size: 1.1em;
+}
+
+ul li a {
+    color: #007BFF;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+ul li a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Contact Form */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+form label {
+    font-size: 1.1em;
+    color: #333;
+}
+
+form input, form textarea {
+    padding: 15px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+form input:focus, form textarea:focus {
+    border-color: #007BFF;
+    background-color: #fff;
+}
+
+form button {
+    padding: 15px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+}
+
+form button:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+}
+
+/* Footer Section */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+}
+
+footer p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+footer a {
+    color: #007BFF;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Address Section - Styling */
+.address {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+}
+
+.address h3 {
+    font-size: 1.8em;
+    color: #333;
+}
+
+.address p {
+    font-size: 1.2em;
+    color: #666;
+}
+
+/* Media Query for Small Screens */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2.8em;
+    }
+
+    .about-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .about-photo img {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 20px;
+    }
+
+    .about-text {
+        max-width: 90%;
+    }
+
+    section h2 {
+        font-size: 2.2em;
+    }
+
+    form label {
+        font-size: 1.1em;
+    }
+
+    form input, form textarea {
+        font-size: 1em;
+    }
+
+    form button {
+        font-size: 1.1em;
+    }
+}
+
