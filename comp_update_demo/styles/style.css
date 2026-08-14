@@ -15,23 +15,123 @@
   cursor: pointer;
 }
 
+.area-amit {
+  top: 37%;
+  left: 18%;
+  width: 5%;
+  height: 7%;
+}
+
+.area-agrim {
+  top: 37%;
+  left: 32%;
+  width: 5%;
+  height: 7%;
+}
+
+.area-hitesh {
+  top: 37%;
+  left: 70%;
+  width: 5%;
+  height: 7%;
+}
+
+.area-anil {
+  top: 35%;
+  left: 78%;
+  width: 5%;
+  height: 7%;
+}
+
+/* Bottom row */
+
 .area-ramya {
-  top: 40%;
+  top: 43%;
   left: 2%;
   width: 5%;
   height: 10%;
 }
 
 .area-meena {
-  top: 40%;
+  top: 43%;
   left: 10%;
   width: 5%;
   height: 10%;
 }
 
 .area-subhadip {
-  top: 40%;
+  top: 43%;
   left: 20%;
+  width: 5%;
+  height: 10%;
+}
+
+.area-abhiram {
+  top: 43%;
+  left: 30%;
+  width: 3%;
+  height: 10%;
+}
+
+.area-roseline {
+  top: 43%;
+  left: 37%;
+  width: 5%;
+  height: 10%;
+}
+
+.area-neha {
+  top: 45%;
+  left: 45%;
+  width: 5%;
+  height: 10%;
+}
+
+.area-swarnalipa {
+  top: 45%;
+  left: 50%;
+  width: 5%;
+  height: 10%;
+}
+
+.area-nagashri {
+  top: 45%;
+  left: 60%;
+  width: 5%;
+  height: 10%;
+}
+
+.area-akhil {
+  top: 43%;
+  left: 67%;
+  width: 5%;
+  height: 10%;
+}
+
+.area-surajit {
+  top: 45%;
+  left: 73%;
+  width: 5%;
+  height: 10%;
+}
+
+.area-ashutosh {
+  top: 45%;
+  left: 82%;
+  width: 5%;
+  height: 10%;
+}
+
+.area-prajakta {
+  top: 45%;
+  left: 93%;
+  width: 5%;
+  height: 10%;
+}
+
+.area-sravanthi{
+  top: 65%;
+  left: 10%;
   width: 5%;
   height: 10%;
 }
