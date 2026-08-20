@@ -1,1 +1,349 @@
 
+<!-- saved from url=(0061)https://www.imsc.res.in/~meena/CT-update-meeting-Jan2026.html -->
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252" >
+<title>
+   Photo annotater
+</title>
+
+<script>
+  // initialize stack for undo operation.
+  const stack=[0];
+  function getTop(){
+    return stack[stack.length - 1]; 
+  }
+
+  //make sure that only one person is added at a time
+  var liveFlag=false;
+  
+  //define class for each item (participant)
+  class Item {
+    constructor(name, insti, leftPos, topPos) {
+      this.name = name;
+      this.insti = insti;
+      this.leftPos = leftPos;
+      this.rightPos = rightPos;       
+    }
+  }
+
+  const itemList = [];
+  // initialize global 
+</script>
+
+<!-- <link rel="stylesheet" href="styles/style.css"> -->
+
+<style>
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-point {
+    position: absolute;
+    width: 3%;
+    height: 3%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 0, 0, 0.3);
+    z-index: 10;
+    border: 50%;
+}
+
+/* The actual tooltip */
+.tooltip-point::after {
+    content: attr(data-tooltip);
+    position: absolute;
+
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: black;
+    color: white;
+    padding: 5px 8px;
+    border-radius: 4px;
+
+    white-space: nowrap;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition: opacity 0.15s;
+}
+
+/* Show tooltip when hovering */
+.tooltip-point:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Selects any element with a data-tooltip attribute */
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  white-space: pre-line;
+  width: max-content;
+}
+
+.code-editor {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            
+            /* Sizing and layout */
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+            padding: 12px;
+            
+            /* Dark-mode developer theme styling */
+            background-color: #ededf7;
+            color: #312f2f;
+            border: 1px solid #3c3c3c;
+            border-radius: 4px;
+            white-space: pre;
+            overflow-x: auto;
+        }
+</style>
+</head>
+
+  <h2> Photo Annotater</h2>
+  
+  <br>
+ Upload image file below: 
+<input type="file" id="imageInput" accept="image/*">
+
+<br>
+<div class="image-container" id="img-div">
+    <img id="preview" style="max-width: 500px; display: none;">
+
+    <!-- <div class="tooltip-point"
+         style="left: 20%; top: 30%;"
+         data-tooltip="something">
+    </div> -->
+
+</div>
+
+<br><br>
+
+<h3>Click the position and add their details below:</h3>
+<input class="da-input" type="text" placeholder="Name" disabled="true" id="ip-name">
+<input class="da-input" type="text" placeholder="Institute" disabled="true" id="ip-insti">
+<input class="da-input" type="button" value="Add" disabled="true" id="ip-add-btn">
+<input type="button" value="Undo" id="undo-btn">
+
+<h3>Done adding details? Click <input type="button" value="Generate" id="gen-btn"> to generate the HTML code.</h3>
+
+<p>Paste the following HTML code to wherever your image is to be displayed <b>(with the location of image in src="")</b></p>
+ <textarea readonly 
+        id="HTML-code"
+        class="code-editor" 
+        rows="10" 
+        cols="50" 
+        spellcheck="false" 
+        wrap="off" 
+        placeholder="Your HTML code here"
+        aria-labelledby="code-label"></textarea>
+
+  <br>
+  <p>Paste the following CSS code within the &lt head &gt &lt /head &gt tags.</p>
+  <textarea readonly
+    id="CSS-code"
+    class="code-editor" 
+    rows="10" 
+    cols="50" 
+    spellcheck="false" 
+    wrap="off" 
+    placeholder="Your CSS code here"
+    aria-labelledby="code-label">
+    &ltstyle&gt
+    .image-container {
+        position: relative;
+        display: inline-block;
+    }
+    .tooltip-point {
+        position: absolute;
+        width: 3%;
+        height: 3%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        border: 50%;
+        cursor: pointer;
+    }
+    /* The actual tooltip */
+    .tooltip-point::after {
+        content: attr(data-tooltip);
+        position: absolute;
+
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+
+        background: black;
+        color: white;
+        padding: 5px 8px;
+        border-radius: 4px;
+
+        white-space: nowrap;
+
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+
+        transition: opacity 0.15s;
+    }
+    /* Show tooltip when hovering */
+    .tooltip-point:hover::after {
+        opacity: 1;
+        visibility: visible;
+        background: rgba(27, 27, 27, 0.658);
+    }
+    /* Selects any element with a data-tooltip attribute */
+    [data-tooltip]::after {
+      content: attr(data-tooltip);
+      white-space: pre-line;
+      width: max-content;
+    }
+    &lt/style&gt
+    </textarea>
+
+<script>
+
+// Preview uploaded image
+const input = document.getElementById("imageInput");
+const preview = document.getElementById("preview");
+
+input.addEventListener("change", () => {
+    const file = input.files[0];
+
+    if (!file) return;
+
+    const url = URL.createObjectURL(file);
+
+    preview.src = url;
+    preview.style.display = "block";
+});
+</script>
+
+<script>//Get image-click position
+const div = document.getElementById("img-div");
+
+div.addEventListener("click", (event) => {
+
+    if (liveFlag == false){
+      //enable add input fields
+    enableInputs();
+
+    const rect = div.getBoundingClientRect();
+
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const xPercent = (x / rect.width) * 100;
+    const yPercent = (y / rect.height) * 100;
+
+    console.log("Percentages", xPercent, yPercent);
+
+    //Prepare new divs:
+    const inDiv = document.createElement("div");
+    i = getTop()+1;
+
+    inDiv.setAttribute("class","tooltip-point");
+    inDiv.setAttribute("style","left: "+xPercent+"%; top: "+ yPercent +"%;");
+    inDiv.setAttribute("data-tooltip", "Add name and institute");
+    inDiv.setAttribute("id", "item"+i);
+
+    //Add new div
+    div.appendChild(inDiv);
+    stack.push(i);
+    console.log(stack);
+
+    }
+    liveFlag = true;
+
+});
+
+function enableInputs(){
+  const daInputs = document.getElementsByClassName("da-input");
+  for (const daInput of daInputs) {
+    daInput.disabled = false;
+  }
+}
+
+function disableInputs(){
+  const daInputs = document.getElementsByClassName("da-input");
+  for (const daInput of daInputs) {
+    daInput.disabled = true;
+  }
+}
+
+//Add details functionality
+
+const addBtn = document.getElementById("ip-add-btn");
+const itemName = document.getElementById("ip-name");
+const itemInsti = document.getElementById("ip-insti");
+addBtn.addEventListener("click",  (event) => {
+    console.log(itemName.value, itemInsti.value, getTop());
+    currItem = document.getElementById("item"+getTop());
+    currItem.setAttribute("data-tooltip", itemName.value+'\n'+itemInsti.value);
+
+    itemName.value = "";
+    itemInsti.value = "";
+    disableInputs();
+
+    liveFlag=false;
+}
+);
+
+</script>
+
+<script>
+  // Undo functionality
+  const undoBtn = document.getElementById("undo-btn");
+  undoBtn.addEventListener("click", (event) => {
+    var top = stack.pop();
+    console.log(top);
+
+    if (top==0){
+      stack.push(top);
+    }
+    else{
+        const badItem = document.getElementById("item"+top);
+        badItem.remove();
+    }
+    liveFlag = false;
+  });
+</script>
+
+<script>
+  // Generate functionality
+  genBtn = document.getElementById("gen-btn");
+  htmlCodeArea = document.getElementById("HTML-code");
+
+  genBtn.addEventListener("click", (event)=>{
+    htmlCodeArea.value = "<div class=\"image-container\" id=\"img-div\"> \n <img width=\"500\" src=\"\"> \n";
+
+    for(let i = 1; i <= getTop(); i++){
+        itemId = "item"+i;
+
+        currItem = document.getElementById(itemId);
+        leftPercent = currItem.style.left;
+        topPercent = currItem.style.top;
+        tooltipText = currItem.getAttribute("data-tooltip");
+        divToAdd = "<div class=\"tooltip-point\" style=\"left: "+leftPercent+" ; top:"+topPercent+";\" data-tooltip=\""+tooltipText+"\"></div>";
+        console.log(divToAdd);
+
+        htmlCodeArea.value = htmlCodeArea.value+divToAdd+"\n";
+    }
+
+    htmlCodeArea.value = htmlCodeArea.value+"\n </div>";
+  });
+</script>
+
+</body>
+
+<br><br><br>
+<footer>
+  <p>Needs Javascript to run. Created by Bhabya.</p>
+</footer>
+</html>
